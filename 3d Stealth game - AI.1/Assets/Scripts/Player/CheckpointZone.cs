@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CheckpointZone : buttonScript
 {
+    public List<GameObject> checkpointList;
+
+
+    bool checkListhasSetup;
     public Light illuminateObject;
     bool increaseLight;
 
@@ -23,15 +28,25 @@ public class CheckpointZone : buttonScript
         illuminateObject.intensity = 0;
         checkpointCount = 1;
         playerHitLastCheckpoint = false;
+        checkListhasSetup = false;
     }
 
     void Update()
     {
+       // print("checkpoint number is " + checkpointNumber);
         if (checkpointCount == checkpointNumber)
         {
             illuminateCheckpointZone();
         }
         else { illuminateObject.intensity = 0; }
+        //if (!checkListhasSetup)
+        //{
+        //    print("checkpoint number is " + checkpointNumber);
+        //    checkpointList[checkpointNumber].add = gameObject;
+
+        //    print(gameObject.name);
+        //    checkListhasSetup = true;
+        //}
     }
 
     protected void OnTriggerEnter(Collider other)

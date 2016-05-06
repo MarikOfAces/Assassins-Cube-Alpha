@@ -21,9 +21,10 @@ public class ExitZone : buttonScript {
         increaseLight = true;
         illuminateObject.intensity = 0;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (objectiveCompleted)
         {
             endGameTimer -= Time.deltaTime;
@@ -37,7 +38,7 @@ public class ExitZone : buttonScript {
                 GUIMainMenu.assassinateGameMode = false;
             }
         }
-        if(StealObjectScript.isObjectTaken || GUIMainMenu.escortGameMode || CheckpointZone.playerHitLastCheckpoint || AssassinationTargetController.health <= 0)
+        if (StealObjectScript.isObjectTaken || GUIMainMenu.escortGameMode || CheckpointZone.playerHitLastCheckpoint || AssassinationTargetController.isTargetDead)
         {
             illuminateExitZone();
         }
@@ -45,7 +46,7 @@ public class ExitZone : buttonScript {
 
     protected override void OnTriggerStay(Collider other)
     {
-        if(StealObjectScript.isObjectTaken || (Vector3.Distance(playerObject.transform.position, escortObject.transform.position) <= 5) || CheckpointZone.playerHitLastCheckpoint || AssassinationTargetController.health <= 0)
+        if(StealObjectScript.isObjectTaken || (Vector3.Distance(playerObject.transform.position, escortObject.transform.position) <= 5) || CheckpointZone.playerHitLastCheckpoint || AssassinationTargetController.isTargetDead)
         {
 			if (other.gameObject.tag == "Player")
             TriggerAction();

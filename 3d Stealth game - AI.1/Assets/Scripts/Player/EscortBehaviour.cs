@@ -30,33 +30,37 @@ public class EscortBehaviour : MonoBehaviour
         NewTarget = pMove.transform.position;
         timer -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Q) && (isWaitTrue == true))
+        if (Vector3.Distance(transform.position, goal.transform.position) <= 10)
         {
-            isWaitTrue = false;
-        }
-        else if (Input.GetKeyDown(KeyCode.Q) && (isWaitTrue == false))
-        {
-            isWaitTrue = true;
-        }
+
+            if (Input.GetKeyDown(KeyCode.Q) && (isWaitTrue == true))
+            {
+                isWaitTrue = false;
+            }
+            else if (Input.GetKeyDown(KeyCode.Q) && (isWaitTrue == false))
+            {
+                isWaitTrue = true;
+            }
 
 
-        if (isWaitTrue == false)
-        {
-            if ((timer <= 0) && (timerIsZero == false))
+            if (isWaitTrue == false)
             {
-                EscortFollow();
-                timerIsZero = true;
+                if ((timer <= 0) && (timerIsZero == false))
+                {
+                    EscortFollow();
+                    timerIsZero = true;
+                }
+                if (timerIsZero == true)
+                {
+                    timer = timerValue;
+                    timerIsZero = false;
+                }
             }
-            if (timerIsZero == true)
+            if (isWaitTrue == true)
             {
-                timer = timerValue;
-                timerIsZero = false;
+                EscortWait();
             }
-        }
-        if (isWaitTrue == true)
-        {
-            EscortWait();
-        }   
+        } 
     }
     void EscortFollow()
     {

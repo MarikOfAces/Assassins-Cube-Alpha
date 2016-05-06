@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameModeSelected : MonoBehaviour {
 
@@ -7,6 +8,13 @@ public class GameModeSelected : MonoBehaviour {
     public GameObject escortObject;
     public GameObject Checkpoints;
     public GameObject AssassinationTarget;
+    public GameObject exitZone;
+
+    public CheckpointZone checkpointZone;
+    public List<GameObject> checkpointObjective;
+
+    public GameObject currentObjective;
+
 	public bool GameModeSet;
 
     // Use this for initialization
@@ -15,12 +23,15 @@ public class GameModeSelected : MonoBehaviour {
         escortObject.SetActive(false);
         Checkpoints.SetActive(false);
         AssassinationTarget.SetActive(false);
+        currentObjective = null;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		if (!GameModeSet)
+        if (!GameModeSet)
 		{
+
+
 	        if (GUIMainMenu.noGameMode)
 	        {
 	            GUIMainMenu.escortGameMode = false;
@@ -36,6 +47,7 @@ public class GameModeSelected : MonoBehaviour {
 	            GUIMainMenu.escapeGameMode = false;
 	            GUIMainMenu.assassinateGameMode = false;
 	            GUIMainMenu.noGameMode = false;
+                currentObjective = stealableObject;
 	        }
 
 	        if (GUIMainMenu.escortGameMode)
@@ -45,7 +57,8 @@ public class GameModeSelected : MonoBehaviour {
 	            GUIMainMenu.escapeGameMode = false;
 	            GUIMainMenu.assassinateGameMode = false;
 	            GUIMainMenu.noGameMode = false;
-	        }
+                currentObjective = escortObject;
+            }
 
 	        if(GUIMainMenu.escapeGameMode)
 	        {
@@ -54,7 +67,8 @@ public class GameModeSelected : MonoBehaviour {
 	            GUIMainMenu.escortGameMode = false;
 	            GUIMainMenu.assassinateGameMode = false;
 	            GUIMainMenu.noGameMode = false;
-	        }
+                currentObjective = Checkpoints;
+            }
 
 	        if(GUIMainMenu.assassinateGameMode)
 	        {
@@ -63,8 +77,32 @@ public class GameModeSelected : MonoBehaviour {
 		            GUIMainMenu.escortGameMode = false;
 		            GUIMainMenu.escapeGameMode = false;
 		            GUIMainMenu.noGameMode = false;
-	        }
+                    currentObjective = AssassinationTarget;
+            }
 			GameModeSet = true;
 		}
+        // print("WE GOT HERE COS LOL");
+        print("checkpointZone number is " + CheckpointZone.checkpointCount);
+        if (GUIMainMenu.escapeGameMode)
+        {
+            if(CheckpointZone.playerHitLastCheckpoint)
+            {
+                currentObjective = exitZone;
+            }
+            currentObjective = Checkpoints.GetComponent<ListOurPoints>().CheckList[CheckpointZone.checkpointCount-1];
+
+
+
+
+
+
+               // if (CheckpointZone.checkpointCount == checkpointZone.checkpointNumber)
+               // {
+
+               //currentObjective = checkpointObjective[CheckpointZone.checkpointCount].gameObject;
+
+           // }
+        }
+            
     }
 }
