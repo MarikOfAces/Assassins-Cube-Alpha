@@ -24,15 +24,17 @@ public class PlayerMovement : MonoBehaviour {
 	public float Stamina;
 	public float fallTimer;
 	public bool falling;
+    bool noiseToggled;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		rb = GetComponent<Rigidbody>();
 		speed = 0.1f;
 		Health = 30.0f;
 		Stamina = 30.0f;
         jumpForce = 10f;
-
+        noiseToggled = false;
+    
     }
 	
 	// Update is called once per frame
@@ -45,14 +47,27 @@ public class PlayerMovement : MonoBehaviour {
 
         if (playerMovementController.crouchHeld)
         {
+
             // transform.lossyScale.Set(0.5f, 1f, 1f);
             // Vector3 scaleVector = new Vector3(0.5f, 1f, 1f);
             //gameObject.transform.lossyScale.Scale(transform.position, scaleVector);
             transform.localScale = new Vector3(1f, 0.5f, 1f);
+            if (!noiseToggled)
+            {
+                Noise *= 0.5f;
+                noiseToggled = true;
+            }
         }
         else
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
+            if (noiseToggled)
+            {
+                Noise *= 2.0f;
+                noiseToggled = false;
+            }
+
+
         }
 
         //Attack ();
@@ -205,6 +220,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void playerDeath (){
 	if (Health <= 0) {
+            Application.LoadLevel(0);
 			Destroy (gameObject);
 		}
 	}
