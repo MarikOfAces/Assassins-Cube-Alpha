@@ -7,7 +7,8 @@ public class AssassinationTargetController : customTimer
     public State guardAI = State.wander;
 
     public int Health;
-    static public int health;
+    static public bool isTargetDead;
+    public bool isTargetDeadVis;
     public float Stamina;
 
     public Light illuminateObject;
@@ -57,18 +58,19 @@ public class AssassinationTargetController : customTimer
 
     void Start()
     {
+        isTargetDead = false;
         //Health = 5;
         guardRay = new Ray(transform.position, transform.forward);
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
 
         increaseLight = true;
         illuminateObject.intensity = 0;
-    }
+
+}
 
     void Update()
     {
-        health = Health;
-        print("Health is " + health);
+        isTargetDeadVis = isTargetDead;
         illuminateTarget();
 
         GuardDeath();
@@ -386,6 +388,7 @@ public class AssassinationTargetController : customTimer
     {
         if (Health < 1)
         {
+            isTargetDead = true;
             Destroy(gameObject);
         }
     }
